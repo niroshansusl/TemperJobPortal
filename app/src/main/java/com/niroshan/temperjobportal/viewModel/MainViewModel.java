@@ -70,7 +70,6 @@ public class MainViewModel extends Observable {
 
            /* new GetJobListResponse((Activity) context, new RxResponseListener<BeanJobListResponse>() {
 
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void serviceResponse(Response<ServiceResponse<BeanJobListResponse>> response) {
 

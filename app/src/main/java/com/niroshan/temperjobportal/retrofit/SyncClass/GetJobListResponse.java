@@ -28,15 +28,15 @@ public class GetJobListResponse {
 
         ServiceGenerator.CreateService(ApiInterface.class)
                 .getJobListResponse()
-                .enqueue(new retrofit2.Callback<ServiceResponse<BeanJobListResponse>>() {
+                .enqueue(new retrofit2.Callback<BeanJobListResponse>() {
                     @Override
-                    public void onResponse(Call<ServiceResponse<BeanJobListResponse>> call, Response<ServiceResponse<BeanJobListResponse>> response) {
+                    public void onResponse(Call<BeanJobListResponse> call, Response<BeanJobListResponse> response) {
                         Log.d(TAG, "Request URL :" + call.request().url().toString());
 
                         try {
                             if (response.isSuccessful() && response.body() != null) {
-                                if (response.body().getResponse() != null) {
-                                    ServiceResponse<BeanJobListResponse> serviceResponseBody = response.body();
+                                if (response.body().getJobList() != null) {
+                                    BeanJobListResponse serviceResponseBody = response.body();
                                     if (serviceResponseBody != null) {
                                         rxResponseListener.serviceResponse(response);
                                     }
@@ -52,7 +52,7 @@ public class GetJobListResponse {
                     }
 
                     @Override
-                    public void onFailure(Call<ServiceResponse<BeanJobListResponse>> call, Throwable t) {
+                    public void onFailure(Call<BeanJobListResponse> call, Throwable t) {
                         System.out.println(t);
                         rxResponseListener.serviceThrowable(t);
                     }

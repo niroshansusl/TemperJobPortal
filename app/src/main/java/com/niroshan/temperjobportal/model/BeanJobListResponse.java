@@ -21,10 +21,10 @@ public class BeanJobListResponse {
         this.jobList = jobList;
     }
 
-    /* @SerializedName("2017-05-20")
+     /*@SerializedName("2017-05-22")
     private BeanJobList[] listOne;
 
-    @SerializedName("2017-05-21")
+    @SerializedName("2017-05-23")
     private BeanJobList[] listTwo;
 
     @SerializedName("2018-05-24")

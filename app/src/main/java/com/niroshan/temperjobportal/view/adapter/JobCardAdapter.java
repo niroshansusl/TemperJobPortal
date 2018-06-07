@@ -10,6 +10,8 @@ import com.niroshan.temperjobportal.databinding.JobItemCardBinding;
 import com.niroshan.temperjobportal.model.BeanJobList;
 import com.niroshan.temperjobportal.viewModel.ItemJobCardViewModel;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,14 +19,51 @@ import java.util.List;
  * Created by Niroshan Rathnayake on 6/6/2018.
  */
 
-public class JobCardAdapter extends RecyclerView.Adapter<JobCardAdapter.JobAdapterViewHolder> {
+public abstract class JobCardAdapter extends RecyclerView.Adapter {
 
     private List<BeanJobList> jobList;
-    private LayoutInflater layoutInflater;
 
-    public JobCardAdapter(){this.jobList = Collections.emptyList();}
+   /* public JobCardAdapter(){
+        this.jobList = Collections.emptyList();
+        setHasStableIds(true);
+    }*/
 
-    @Override
+    public void add(BeanJobList object) {
+        jobList.add(object);
+        notifyDataSetChanged();
+    }
+
+    public void add(int index, BeanJobList object) {
+        jobList.add(index, object);
+        notifyDataSetChanged();
+    }
+
+    public void addAll(Collection collection) {
+        if (collection != null) {
+            jobList.addAll(collection);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void addAll(BeanJobList... items) {
+        addAll(Arrays.asList(items));
+    }
+
+    public void clear() {
+        jobList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void remove(String object) {
+        jobList.remove(object);
+        notifyDataSetChanged();
+    }
+
+    /*public JobCardAdapter(){
+        this.jobList = Collections.emptyList();
+    }*/
+
+   /* @Override
     public JobAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(parent.getContext());
@@ -67,5 +106,5 @@ public class JobCardAdapter extends RecyclerView.Adapter<JobCardAdapter.JobAdapt
             }
 
         }
-    }
+    }*/
 }

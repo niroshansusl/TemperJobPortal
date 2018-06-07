@@ -17,6 +17,6 @@ public interface ApiInterface {
     @GET
     Observable<BeanJobListResponse> fetchJobList(@Url String url);
 
-    @GET("s/02dccb53gs0m9ck/mock.json?raw=1")
-    Call<ServiceResponse<BeanJobListResponse>> getJobListResponse();
+    @GET("niroshan/jobsearch.json")
+    Call<BeanJobListResponse> getJobListResponse();
 }
