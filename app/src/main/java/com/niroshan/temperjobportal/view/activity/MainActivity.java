@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements Observer{
         initDataBinding();
         setSupportActionBar(jobActivityBinding.toolbar);
         setUpListOfJobsCardViews(jobActivityBinding.listJobCard);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
         setUpObserver(mainViewModel);
     }
 
