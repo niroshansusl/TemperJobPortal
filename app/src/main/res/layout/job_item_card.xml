@@ -37,18 +37,8 @@
                 android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:fitsSystemWindows="true"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 tools:imageUrl="@{jobDetailViewModel.image}" />
-
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="170dp"
-                android:textColor="@color/colorWhite"
-                android:text="@{jobDetailViewModel.distance}"
-                />
 
             <ImageView
                 android:layout_width="25dp"
@@ -62,14 +52,14 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="200dp">
 
                 <TextView
                     android:id="@+id/label_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_large"
-                    android:layout_marginLeft="@dimen/spacing_large"
                     android:layout_marginTop="5dp"
                     android:text="@{jobDetailViewModel.clientName}"
                     android:textColor="@android:color/primary_text_light"
@@ -78,42 +68,56 @@
                     tools:text="mr gary allen" />
 
                 <TextView
-                    android:id="@+id/label_rating"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
-                    android:textColor="@color/colorGreen"
+                    android:id="@+id/distance"
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@+id/label_name"
+                    android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:textStyle="bold"
-                    android:text="@{jobDetailViewModel.rating}"
+                    tools:text="10 KM"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="@{jobDetailViewModel.distance}"
+                    />
+
+                <RatingBar
+                    android:id="@+id/label_rating"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/label_name"
+                    android:numStars="5"
+                    android:stepSize=".5"
+                    android:isIndicator="true"
+                    android:rating="@={jobDetailViewModel.rating}"
+                    android:theme="@style/RatingBar"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
                     />
 
                 <TextView
-                    android:id="@+id/label_phone"
+                    android:id="@+id/rating_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/label_name"
+                    android:layout_toRightOf="@+id/label_rating"
+                    android:layout_marginLeft="10dp"
+                    android:text="@{jobDetailViewModel.reviewCount}"
+                    />
+
+                <TextView
+                    android:id="@+id/label_hours"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/label_name"
                     android:layout_alignLeft="@+id/label_name"
-                    android:layout_below="@+id/label_name"
+                    android:layout_below="@+id/label_rating"
                     android:text="@{jobDetailViewModel.cell}"
+                    android:layout_marginBottom="10dp"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="14sp"
                     tools:text="0729-256-147" />
-
-                <TextView
-                    android:id="@+id/label_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/label_phone"
-                    android:layout_alignLeft="@+id/label_phone"
-                    android:layout_below="@+id/label_phone"
-                    android:layout_marginBottom="10dp"
-                    android:text="@{jobDetailViewModel.title}"
-                    android:textColor="@android:color/secondary_text_light"
-                    android:textSize="14sp"
-                    tools:text="gary.allen@example.com" />
 
             </RelativeLayout>
 

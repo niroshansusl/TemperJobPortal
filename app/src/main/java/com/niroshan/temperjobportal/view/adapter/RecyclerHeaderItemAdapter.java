@@ -7,14 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 import com.niroshan.temperjobportal.R;
 import com.niroshan.temperjobportal.databinding.JobItemCardBinding;
 import com.niroshan.temperjobportal.model.BeanJobList;
 import com.niroshan.temperjobportal.viewModel.ItemJobCardViewModel;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +22,6 @@ import java.util.List;
 
 public class RecyclerHeaderItemAdapter extends JobCardAdapter implements StickyRecyclerHeadersAdapter {
 
-    //private ArrayList<BeanJobList> jobList;
     private Context context;
     private LayoutInflater layoutInflater;
 
@@ -45,7 +41,7 @@ public class RecyclerHeaderItemAdapter extends JobCardAdapter implements StickyR
         if (position == 0) {
             return -1;
         } else {
-            return getItemId(position);
+            return getItem(position).getKeyvlaue();
         }
     }
 
@@ -59,7 +55,7 @@ public class RecyclerHeaderItemAdapter extends JobCardAdapter implements StickyR
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemHeaderViewHolder) {
             if (getItem(position)!= null) {
-                String header = String.valueOf(getItem(position).getTitle());
+                String header = String.valueOf(getItem(position).getKey());
                 ((ItemHeaderViewHolder) holder).header.setText(header);
             }
         }
@@ -94,6 +90,11 @@ public class RecyclerHeaderItemAdapter extends JobCardAdapter implements StickyR
     @Override
     public long getItemId(int position) {
         return getItem(position).hashCode();
+    }
+
+    public void addItems(List<BeanJobList> jobList){
+        this.jobList.addAll(jobList);
+        notifyDataSetChanged();
     }
 
     public void setJobList(List<BeanJobList> jobList){

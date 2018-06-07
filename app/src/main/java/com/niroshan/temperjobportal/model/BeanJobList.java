@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 public class BeanJobList implements Serializable {
 
+    private String key;
+    private long keyvlaue;
+
     @SerializedName("title")
     private String title;
 
@@ -143,4 +146,19 @@ public class BeanJobList implements Serializable {
         this.shifts = shifts;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public long getKeyvlaue() {
+        return keyvlaue;
+    }
+
+    public void setKeyvlaue(long keyvlaue) {
+        this.keyvlaue = keyvlaue;
+    }
 }
