@@ -20,28 +20,13 @@ public class ServiceGenerator {
     public static ApiInterface create() {
 
         Gson gson = new GsonBuilder() .setLenient() .create();
-        //OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = new OkHttpClient();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-               // .client(okHttpClient.newBuilder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).writeTimeout(2, TimeUnit.MINUTES).build())
+                .client(okHttpClient.newBuilder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).writeTimeout(2, TimeUnit.MINUTES).build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(ApiInterface.class);
-    }
-
-    private static Retrofit mRetrofitInstance = null;
-
-    public static <S> S CreateService(Class<S> serviceClass) {
-
-        Gson gson = new GsonBuilder() .setLenient() .create();
-        OkHttpClient okHttpClient = new OkHttpClient();
-        mRetrofitInstance = new Retrofit.Builder()
-                .baseUrl(AppConstants.BASE_URL)
-                .client(okHttpClient.newBuilder().connectTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).writeTimeout(2, TimeUnit.MINUTES).build())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        return mRetrofitInstance.create(serviceClass);
     }
 }

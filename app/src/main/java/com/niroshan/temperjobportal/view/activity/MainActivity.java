@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+
 import com.niroshan.temperjobportal.R;
 import com.niroshan.temperjobportal.databinding.ActivityMainBinding;
 import com.niroshan.temperjobportal.model.BeanJobList;
@@ -33,12 +35,14 @@ public class MainActivity extends AppCompatActivity implements Observer{
 
     private ActivityMainBinding jobActivityBinding;
     private MainViewModel mainViewModel;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDataBinding();
-        setSupportActionBar(jobActivityBinding.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         setUpListOfJobsCardViews(jobActivityBinding.listJobCard);
         setUpObserver(mainViewModel);
     }
