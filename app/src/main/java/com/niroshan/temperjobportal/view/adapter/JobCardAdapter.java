@@ -1,18 +1,9 @@
 package com.niroshan.temperjobportal.view.adapter;
 
-import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
-import com.niroshan.temperjobportal.R;
-import com.niroshan.temperjobportal.databinding.JobItemCardBinding;
 import com.niroshan.temperjobportal.model.BeanJobList;
-import com.niroshan.temperjobportal.viewModel.ItemJobCardViewModel;
-
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**

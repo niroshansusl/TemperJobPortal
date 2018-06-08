@@ -8,6 +8,8 @@ import com.niroshan.temperjobportal.config.AppController;
 import com.niroshan.temperjobportal.model.BeanJobList;
 import com.niroshan.temperjobportal.model.BeanJobListResponse;
 import com.niroshan.temperjobportal.retrofit.ApiInterface;
+import com.niroshan.temperjobportal.utils.AppUtils;
+
 import android.support.annotation.NonNull;
 import android.view.View;
 import java.util.ArrayList;
@@ -18,8 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-
-import static com.niroshan.temperjobportal.config.AppConstants.FULL_USER_URL;
+import static com.niroshan.temperjobportal.config.AppConstants.MAIN_URL;
 
 /**
  * Created by Niroshan Rathnayake on 6/6/2018.
@@ -48,7 +49,6 @@ public class MainViewModel extends Observable {
 
         initializeViews();
         fetchJobList();
-
     }
 
     public void onClickFabToLoad(View view) {
@@ -64,29 +64,36 @@ public class MainViewModel extends Observable {
 
     private void fetchJobList() {
 
-        AppController appController = AppController.create(context);
-        ApiInterface usersService = appController.getUserService();
+        if(AppUtils.checkNetworkConnection(context)){
+            AppController appController = AppController.create(context);
+            ApiInterface usersService = appController.getUserService();
 
-        Disposable disposable = usersService.fetchJobList(FULL_USER_URL)
-                .subscribeOn(appController.subscribeScheduler())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<BeanJobListResponse>() {
-                    @Override public void accept(BeanJobListResponse jobResponse) throws Exception {
-                        updateJobDataList(jobResponse.getJobList());
-                        progressBar.set(View.GONE);
-                        jobLabel.set(View.GONE);
-                        jobRecycler.set(View.VISIBLE);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override public void accept(Throwable throwable) throws Exception {
-                        messageLabel.set(context.getString(R.string.error_message_loading_jobs));
-                        progressBar.set(View.GONE);
-                        jobLabel.set(View.VISIBLE);
-                        jobRecycler.set(View.GONE);
-                    }
-                });
+            Disposable disposable = usersService.fetchJobList(MAIN_URL)
+                    .subscribeOn(appController.subscribeScheduler())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<BeanJobListResponse>() {
+                        @Override public void accept(BeanJobListResponse jobResponse) throws Exception {
+                            updateJobDataList(jobResponse.getJobList());
+                            progressBar.set(View.GONE);
+                            jobLabel.set(View.GONE);
+                            jobRecycler.set(View.VISIBLE);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override public void accept(Throwable throwable) throws Exception {
+                            messageLabel.set(context.getString(R.string.error_message_loading_jobs));
+                            progressBar.set(View.GONE);
+                            jobLabel.set(View.VISIBLE);
+                            jobRecycler.set(View.GONE);
+                        }
+                    });
 
-        compositeDisposable.add(disposable);
+            compositeDisposable.add(disposable);
+        } else {
+            progressBar.set(View.GONE);
+            jobLabel.set(View.VISIBLE);
+            jobRecycler.set(View.GONE);
+            messageLabel.set(context.getString(R.string.internet_message_loading_jobs));
+        }
     }
 
     private void updateJobDataList(Map<String, ArrayList<BeanJobList>> mJobList){

@@ -2,12 +2,14 @@ package com.niroshan.temperjobportal.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.niroshan.temperjobportal.R;
 import com.niroshan.temperjobportal.model.BeanJobList;
 
@@ -19,21 +21,15 @@ public class JobDetailActivity extends AppCompatActivity {
 
     private WebView webview;
     private static final String JOB_ITEM = "JOB_ITEM";
+    private static ProgressBar pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_page);
         webview = findViewById(R.id.webView);
+        pd = findViewById(R.id.progress_bar);
         getExtrasFromIntent();
-    }
-
-    private void displayHomeAsUpEnabled() {
-
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     public static Intent loadDetailView(Context context, BeanJobList jobItem) {
@@ -48,10 +44,29 @@ public class JobDetailActivity extends AppCompatActivity {
     }
 
     private void loadWebView(String url){
+
         webview.setWebViewClient(new WebViewClient());
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setDomStorageEnabled(true);
         webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webview.setWebViewClient(new WebViewClient() {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Toast.makeText(JobDetailActivity.this, description, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon)
+            {
+                pd.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                pd.setVisibility(View.GONE);
+                String webUrl = webview.getUrl();
+            }
+
+    });
         webview.loadUrl(url);
     }
 }

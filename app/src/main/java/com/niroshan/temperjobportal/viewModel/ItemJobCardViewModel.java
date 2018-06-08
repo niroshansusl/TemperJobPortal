@@ -1,12 +1,12 @@
 package com.niroshan.temperjobportal.viewModel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-
+import com.ahmadrosid.svgloader.SvgLoader;
 import com.bumptech.glide.Glide;
 import com.niroshan.temperjobportal.R;
 import com.niroshan.temperjobportal.config.AppConstants;
@@ -31,6 +31,11 @@ public class ItemJobCardViewModel extends BaseObservable {
     public String getImage(){
         String image = jobList.getClient().getPhotos().get(0).getFormats().get(0).getCdn_url().toString();
         return  image;
+    }
+
+    public String getIconImage(){
+        String iconImage = AppConstants.IMAGE_BASE_URL + jobList.getJob_category().getIcon_path();
+        return  iconImage;
     }
 
     public String getDistance(){
@@ -77,6 +82,15 @@ public class ItemJobCardViewModel extends BaseObservable {
     public static void setImageUrl(ImageView imageView, String url){
         Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.placeholder).into(imageView);
     }
+
+    @BindingAdapter("iconUrl")
+    public static void setIconImage(ImageView imageView, String url){
+        SvgLoader.pluck()
+                .with((Activity) imageView.getContext())
+                .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
+                .load(url, imageView);
+    }
+
 
     public void setJobList(BeanJobList jobList) {
         this.jobList = jobList;

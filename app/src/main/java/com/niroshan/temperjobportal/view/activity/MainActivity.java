@@ -2,13 +2,20 @@ package com.niroshan.temperjobportal.view.activity;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.RelativeLayout;
 
+import com.ahmadrosid.svgloader.SvgLoader;
 import com.niroshan.temperjobportal.R;
 import com.niroshan.temperjobportal.databinding.ActivityMainBinding;
 import com.niroshan.temperjobportal.model.BeanJobList;
@@ -36,15 +43,53 @@ public class MainActivity extends AppCompatActivity implements Observer{
     private ActivityMainBinding jobActivityBinding;
     private MainViewModel mainViewModel;
     private Toolbar toolbar;
+    public DrawerLayout mDrawerLayout;
+    public ActionBarDrawerToggle mDrawerToggle;
+    private CoordinatorLayout mainView;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDataBinding();
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setToolBar();
         setUpListOfJobsCardViews(jobActivityBinding.listJobCard);
         setUpObserver(mainViewModel);
+    }
+
+    private void setToolBar(){
+        toolbar = findViewById(R.id.toolbar);
+        actionBar = getSupportActionBar();
+        setSupportActionBar(toolbar);
+
+        if(actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        serDrawer();
+    }
+
+    public void serDrawer(){
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mainView = findViewById(R.id.coordinatorLayout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
+                supportInvalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                supportInvalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                mainView.setTranslationX(slideOffset * drawerView.getWidth());
+                mDrawerLayout.bringChildToFront(drawerView);
+                mDrawerLayout.requestLayout();
+            }
+        };
     }
 
     private void initDataBinding() {
@@ -137,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements Observer{
     @Override protected void onDestroy() {
         super.onDestroy();
         mainViewModel.reset();
+        SvgLoader.pluck().close();
     }
 
     private static HashMap sortByValues(Map map) {

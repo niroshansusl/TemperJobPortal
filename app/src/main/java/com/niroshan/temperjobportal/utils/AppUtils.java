@@ -5,7 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.niroshan.temperjobportal.R;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AppUtils {
 
@@ -45,5 +53,31 @@ public class AppUtils {
     public static void startActivityForResult(Activity activity, Intent intent, int status) {
         activity.startActivityForResult(intent, status);
         activity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+    }
+
+    public static String convertDateWithTime(String strTime) {
+
+        try {
+
+            Date date;
+            DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+            date = formatter.parse(strTime);
+
+            DateFormat formatter2 = new SimpleDateFormat("MMM dd, yyyy");
+
+            return formatter2.format(date);
+        } catch (ParseException e) {
+        } catch (Exception e) {
+        }
+
+        return strTime;
+    }
+
+    public static void loadSVGImageWithPlaceholder(Context context, String url, ImageView img, int placeholder) {
+        try {
+            Glide.with(context).load(url).placeholder(placeholder).into(img);
+        }catch (Exception e){
+
+        }
     }
 }

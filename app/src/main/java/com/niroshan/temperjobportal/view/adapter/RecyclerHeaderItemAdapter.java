@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.niroshan.temperjobportal.R;
 import com.niroshan.temperjobportal.databinding.JobItemCardBinding;
 import com.niroshan.temperjobportal.model.BeanJobList;
+import com.niroshan.temperjobportal.utils.AppUtils;
 import com.niroshan.temperjobportal.viewModel.ItemJobCardViewModel;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import java.util.ArrayList;
@@ -38,11 +39,12 @@ public class RecyclerHeaderItemAdapter extends JobCardAdapter implements StickyR
 
     @Override
     public long getHeaderId(int position) {
-        if (position == 0) {
-            return -1;
+       /* if (position == 0) {
+            return 0;
         } else {
-            return getItem(position).getKeyvlaue();
-        }
+
+        }*/
+        return getItem(position).getKeyvlaue();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class RecyclerHeaderItemAdapter extends JobCardAdapter implements StickyR
         if (holder instanceof ItemHeaderViewHolder) {
             if (getItem(position)!= null) {
                 String header = String.valueOf(getItem(position).getKey());
-                ((ItemHeaderViewHolder) holder).header.setText(header);
+                ((ItemHeaderViewHolder) holder).header.setText(AppUtils.convertDateWithTime(header));
             }
         }
     }
