@@ -65,12 +65,12 @@ public class ItemJobCardViewModel extends BaseObservable {
     }
 
     public String getCell(){
-        String cell = cell = Integer.toString(jobList.getOpen_positions()) + " open positie - " + jobList.getShifts().get(0).getStart_time()+ " ("+jobList.getShifts().get(0).getDuration() +"u)";
+        String cell = Integer.toString(jobList.getOpen_positions()) + " open positie - " + jobList.getShifts().get(0).getStart_time()+ " ("+jobList.getShifts().get(0).getDuration() +"u)";
         return cell;
     }
 
     public void onItemClick(View v){
-
+        context.startActivity(JobDetailActivity.loadDetailView(v.getContext(), jobList));
     }
 
     @BindingAdapter("imageUrl")

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.niroshan.temperjobportal.MainActivity">
 
-
     <data>
         <import type="android.view.View" />
 
@@ -22,6 +21,7 @@
         >
 
         <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -62,7 +62,6 @@
                     tools:listitem="@layout/job_item_card"
                     />
 
-
             </LinearLayout>
 
             <android.support.design.widget.FloatingActionButton
@@ -74,14 +73,14 @@
                 android:clickable="true"
                 android:onClick="@{jobCardViewModel::onClickFabToLoad}"
                 app:backgroundTint="@color/colorGreen"/>
-                <!--android:src="@drawable/ic_add_24dp"-->/>
+                <!--android:src="@drawable/ic_add_24dp"-->
 
             <TextView android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="SYNC"
+                android:text="@string/text_sync_button"
                 android:elevation="6dp"
                 android:textSize="18dp"
-                android:textColor="#fff"
+                android:textColor="@color/colorWhite"
                 app:layout_anchor="@id/fab"
                 app:layout_anchorGravity="center"/>
 
@@ -91,13 +90,10 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    android:background="?attr/colorPrimary"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                <include
+                    android:id="@+id/custom_toolbar"
+                    layout="@layout/app_toolbar"
+                    />
 
             </android.support.design.widget.AppBarLayout>
 

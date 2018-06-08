@@ -11,10 +11,10 @@ import java.io.Serializable;
 public class BeanRating implements Serializable{
 
     @SerializedName("average")
-    float average;
+    private float average;
 
     @SerializedName("count")
-    Integer count;
+    private Integer count;
 
     public float getAverage() {
         return average;

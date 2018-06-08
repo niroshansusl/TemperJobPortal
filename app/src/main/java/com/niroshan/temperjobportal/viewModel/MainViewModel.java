@@ -19,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-import static com.niroshan.temperjobportal.config.AppConstants.RANDOM_USER_URL;
+import static com.niroshan.temperjobportal.config.AppConstants.FULL_USER_URL;
 
 /**
  * Created by Niroshan Rathnayake on 6/6/2018.
@@ -30,22 +30,25 @@ public class MainViewModel extends Observable {
     public ObservableInt progressBar;
     public ObservableInt jobRecycler;
     public ObservableInt jobLabel;
+    public ObservableInt coordinatorLayout;
     public ObservableField<String> messageLabel;
 
     private Map<String, ArrayList<BeanJobList>> jobList;
     private Context context;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public MainViewModel(@NonNull Context context) {
+    public MainViewModel(@NonNull final Context context) {
         this.context = context;
         this.jobList = new HashMap<>();
         progressBar = new ObservableInt(View.GONE);
         jobRecycler = new ObservableInt(View.GONE);
         jobLabel = new ObservableInt(View.VISIBLE);
+        coordinatorLayout = new ObservableInt(View.VISIBLE);
         messageLabel = new ObservableField<>(context.getString(R.string.default_message_loading_jobs));
 
         initializeViews();
         fetchJobList();
+
     }
 
     public void onClickFabToLoad(View view) {
@@ -64,7 +67,7 @@ public class MainViewModel extends Observable {
         AppController appController = AppController.create(context);
         ApiInterface usersService = appController.getUserService();
 
-        Disposable disposable = usersService.fetchJobList(RANDOM_USER_URL)
+        Disposable disposable = usersService.fetchJobList(FULL_USER_URL)
                 .subscribeOn(appController.subscribeScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<BeanJobListResponse>() {
