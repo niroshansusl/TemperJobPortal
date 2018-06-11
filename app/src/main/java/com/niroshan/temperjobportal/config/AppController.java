@@ -25,7 +25,7 @@ public class AppController extends Application {
         return AppController.get(context);
     }
 
-    public ApiInterface getUserService() {
+    public ApiInterface getJobService() {
         if (apiService == null) {
             apiService = ServiceGenerator.create();
         }
@@ -47,7 +47,7 @@ public class AppController extends Application {
         MultiDex.install(this);
     }
 
-    public void setUserService(ApiInterface apiService) {
+    public void setJobService(ApiInterface apiService) {
         this.apiService = apiService;
     }
 

@@ -66,7 +66,7 @@ public class MainViewModel extends Observable {
 
         if(AppUtils.checkNetworkConnection(context)){
             AppController appController = AppController.create(context);
-            ApiInterface usersService = appController.getUserService();
+            ApiInterface usersService = appController.getJobService();
 
             Disposable disposable = usersService.fetchJobList(MAIN_URL)
                     .subscribeOn(appController.subscribeScheduler())
