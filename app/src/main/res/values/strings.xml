@@ -5,4 +5,5 @@
     <string name="internet_message_loading_jobs">Please check your internet connection!</string>
     <string name="text_sync_button">SYNC</string>\<string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="msg_request_permission_location">You need to allow location permission to enjoy our benefits</string>
 </resources>

@@ -1,17 +1,24 @@
 package com.niroshan.temperjobportal.view.activity;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,6 +28,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,6 +42,7 @@ import com.niroshan.temperjobportal.viewModel.MainViewModel;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersTouchListener;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     private ActionBar actionBar;
     private Location newLocation;
     private BroadcastReceiver locationUpdateReceiver;
+    public static final int REQUEST_LOCATION = 99;
 
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -108,13 +118,11 @@ public class MainActivity extends AppCompatActivity implements Observer {
         setToolBar();
         setUpListOfJobsCardViews(jobActivityBinding.listJobCard);
         setUpObserver(mainViewModel);
-        startLocationService();
 
         locationUpdateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 newLocation = intent.getParcelableExtra("location");
-               // Toast.makeText(getApplicationContext(), "(" + newLocation.getLatitude() + "," + newLocation.getLongitude() + ")", Toast.LENGTH_LONG).show();
             }
         };
 
@@ -252,6 +260,55 @@ public class MainActivity extends AppCompatActivity implements Observer {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        requestPermission();
+    }
+
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            }
+        } else {
+            initDataBinding();
+            startLocationService();
+            setUpListOfJobsCardViews(jobActivityBinding.listJobCard);
+            setUpObserver(mainViewModel);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOCATION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    initDataBinding();
+                    startLocationService();
+                    setUpListOfJobsCardViews(jobActivityBinding.listJobCard);
+                    setUpObserver(mainViewModel);
+
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+
+                } else {
+                    boolean showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
+                    if (showRationale) {
+
+                        Toast.makeText(this, getString(R.string.msg_request_permission_location), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, getString(R.string.msg_request_permission_location), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mainViewModel.reset();
@@ -261,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         try {
             if (locationUpdateReceiver != null) {
-                unregisterReceiver(locationUpdateReceiver);
+                LocalBroadcastManager.getInstance(this).registerReceiver(locationUpdateReceiver, new IntentFilter("LocationUpdated"));
             }
 
         } catch (IllegalArgumentException ex) {
@@ -269,5 +326,11 @@ public class MainActivity extends AppCompatActivity implements Observer {
         }
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (locationUpdateReceiver != null) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(locationUpdateReceiver, new IntentFilter("LocationUpdated"));
+        }
+    }
 }

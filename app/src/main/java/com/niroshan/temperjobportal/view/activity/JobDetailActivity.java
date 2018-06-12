@@ -21,14 +21,14 @@ public class JobDetailActivity extends AppCompatActivity {
 
     private WebView webview;
     private static final String JOB_ITEM = "JOB_ITEM";
-    private static ProgressBar pd;
+    private static ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_page);
         webview = findViewById(R.id.webView);
-        pd = findViewById(R.id.progress_bar);
+        progressBar = findViewById(R.id.progress_bar);
         getExtrasFromIntent();
     }
 
@@ -57,13 +57,13 @@ public class JobDetailActivity extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon)
             {
-                pd.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                pd.setVisibility(View.GONE);
-                String webUrl = webview.getUrl();
+                progressBar.setVisibility(View.GONE);
+                //String webUrl = webview.getUrl();
             }
 
     });
