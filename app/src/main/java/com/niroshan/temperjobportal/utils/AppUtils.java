@@ -3,6 +3,7 @@ package com.niroshan.temperjobportal.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.ImageView;
@@ -73,11 +74,9 @@ public class AppUtils {
         return strTime;
     }
 
-    public static void loadSVGImageWithPlaceholder(Context context, String url, ImageView img, int placeholder) {
-        try {
-            Glide.with(context).load(url).placeholder(placeholder).into(img);
-        }catch (Exception e){
-
-        }
+    public static float getDistance(double lat1, double lon1, double lat2, double lon2) {
+        float[] distance = new float[2];
+        Location.distanceBetween(lat1, lon1, lat2, lon2, distance);
+        return (distance[0]/1000);
     }
 }

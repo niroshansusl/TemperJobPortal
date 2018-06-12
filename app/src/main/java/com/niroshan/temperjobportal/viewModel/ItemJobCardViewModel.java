@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.niroshan.temperjobportal.R;
 import com.niroshan.temperjobportal.config.AppConstants;
 import com.niroshan.temperjobportal.model.BeanJobList;
+import com.niroshan.temperjobportal.utils.AppUtils;
 import com.niroshan.temperjobportal.view.activity.JobDetailActivity;
 
 /**
@@ -39,7 +40,14 @@ public class ItemJobCardViewModel extends BaseObservable {
     }
 
     public String getDistance(){
-        String distance = jobList.getDistance().toString() + AppConstants.DISTANCE_TYPE;
+
+        Double currentLat = jobList.getCurrentLat();
+        Double currentLong = jobList.getCurrentLong();
+        Double placeLat = jobList.getLocation().getLat();
+        Double placeLong = jobList.getLocation().getLng();
+
+        //String distance = jobList.getDistance().toString() + AppConstants.DISTANCE_TYPE;
+        String distance = "" + String.format("%.2f", AppUtils.getDistance(currentLat, currentLong, placeLat, placeLong)) + AppConstants.DISTANCE_TYPE;
         return distance;
     }
 

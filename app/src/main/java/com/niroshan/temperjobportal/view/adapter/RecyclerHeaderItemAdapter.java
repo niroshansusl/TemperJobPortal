@@ -84,8 +84,6 @@ public class RecyclerHeaderItemAdapter extends JobCardAdapter implements StickyR
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-       // holder.bindJob(jobList.get(position));
-       // BeanJobList itemModel = mList.get(position);
         ((JobAdapterViewHolder)holder).bindJob(jobList.get(position));
     }
 

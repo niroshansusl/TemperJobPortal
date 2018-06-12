@@ -13,6 +13,8 @@ public class BeanJobList implements Serializable {
 
     private String key;
     private long keyvlaue;
+    private double currentLat;
+    private double currentLong;
 
     @SerializedName("title")
     private String title;
@@ -37,6 +39,9 @@ public class BeanJobList implements Serializable {
 
     @SerializedName("client")
     private BeanClient client;
+
+    @SerializedName("location")
+    private BeanLocation location;
 
     @SerializedName("job_category")
     private BeanJobCategory job_category;
@@ -160,5 +165,29 @@ public class BeanJobList implements Serializable {
 
     public void setKeyvlaue(long keyvlaue) {
         this.keyvlaue = keyvlaue;
+    }
+
+    public double getCurrentLat() {
+        return currentLat;
+    }
+
+    public void setCurrentLat(double currentLat) {
+        this.currentLat = currentLat;
+    }
+
+    public double getCurrentLong() {
+        return currentLong;
+    }
+
+    public void setCurrentLong(double currentLong) {
+        this.currentLong = currentLong;
+    }
+
+    public BeanLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(BeanLocation location) {
+        this.location = location;
     }
 }

@@ -9,6 +9,7 @@ import com.niroshan.temperjobportal.model.BeanJobList;
 import com.niroshan.temperjobportal.model.BeanJobListResponse;
 import com.niroshan.temperjobportal.retrofit.ApiInterface;
 import com.niroshan.temperjobportal.utils.AppUtils;
+import com.niroshan.temperjobportal.view.activity.MainActivity;
 
 import android.support.annotation.NonNull;
 import android.view.View;

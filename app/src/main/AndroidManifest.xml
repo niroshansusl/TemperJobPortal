@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".config.AppController"
@@ -25,6 +26,19 @@
         </activity>
         <activity android:name=".view.activity.JobDetailActivity"
             android:parentActivityName=".view.activity.MainActivity"></activity>
+        
+        <service android:name="com.niroshan.temperjobportal.services.LocationService"
+            android:enabled="true"
+            android:exported="false"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBM7V3ONZ7uvWgPbtDfO3ZCp8dA4MCRPk0"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>
