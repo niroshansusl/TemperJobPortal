@@ -1,5 +1,8 @@
 package com.niroshan.temperjobportal.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -8,7 +11,7 @@ import java.io.Serializable;
  * Created by Niroshan Rathnayake on 6/6/2018.
  */
 
-public class BeanShifts implements Serializable {
+public class BeanShifts implements Parcelable {
 
     @SerializedName("currency")
     private String currency;
@@ -39,6 +42,86 @@ public class BeanShifts implements Serializable {
 
     @SerializedName("tempers_needed")
     private Integer tempers_needed;
+
+    protected BeanShifts(Parcel in) {
+        currency = in.readString();
+        if (in.readByte() == 0) {
+            duration = null;
+        } else {
+            duration = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            earnings_per_hour = null;
+        } else {
+            earnings_per_hour = in.readDouble();
+        }
+        end_datetime = in.readString();
+        end_time = in.readString();
+        if (in.readByte() == 0) {
+            is_auto_accepted_when_applied_for = null;
+        } else {
+            is_auto_accepted_when_applied_for = in.readInt();
+        }
+        start_date = in.readString();
+        start_datetime = in.readString();
+        start_time = in.readString();
+        if (in.readByte() == 0) {
+            tempers_needed = null;
+        } else {
+            tempers_needed = in.readInt();
+        }
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(currency);
+        if (duration == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(duration);
+        }
+        if (earnings_per_hour == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(earnings_per_hour);
+        }
+        dest.writeString(end_datetime);
+        dest.writeString(end_time);
+        if (is_auto_accepted_when_applied_for == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(is_auto_accepted_when_applied_for);
+        }
+        dest.writeString(start_date);
+        dest.writeString(start_datetime);
+        dest.writeString(start_time);
+        if (tempers_needed == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(tempers_needed);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<BeanShifts> CREATOR = new Creator<BeanShifts>() {
+        @Override
+        public BeanShifts createFromParcel(Parcel in) {
+            return new BeanShifts(in);
+        }
+
+        @Override
+        public BeanShifts[] newArray(int size) {
+            return new BeanShifts[size];
+        }
+    };
 
     public String getCurrency() {
         return currency;

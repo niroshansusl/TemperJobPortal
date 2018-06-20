@@ -39,7 +39,7 @@ public class JobDetailActivity extends AppCompatActivity {
     }
 
     private void getExtrasFromIntent(){
-        BeanJobList jobItem = (BeanJobList) getIntent().getSerializableExtra(JOB_ITEM);
+        BeanJobList jobItem = getIntent().getParcelableExtra(JOB_ITEM);
         loadWebView(jobItem.getUrl());
     }
 

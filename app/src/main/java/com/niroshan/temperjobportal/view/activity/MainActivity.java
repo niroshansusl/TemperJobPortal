@@ -24,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -70,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
     private ActionBar actionBar;
     private Location newLocation;
     private BroadcastReceiver locationUpdateReceiver;
+    private RecyclerView jobList;
     public static final int REQUEST_LOCATION = 99;
-
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -117,6 +118,10 @@ public class MainActivity extends AppCompatActivity implements Observer {
         initDataBinding();
         setToolBar();
         setUpListOfJobsCardViews(jobActivityBinding.listJobCard);
+        jobList = jobActivityBinding.listJobCard;
+        jobList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        jobList.setItemAnimator(new DefaultItemAnimator());
+        jobList.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 0));
         setUpObserver(mainViewModel);
 
         locationUpdateReceiver = new BroadcastReceiver() {

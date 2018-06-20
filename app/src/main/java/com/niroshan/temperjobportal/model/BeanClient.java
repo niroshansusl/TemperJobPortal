@@ -1,5 +1,8 @@
 package com.niroshan.temperjobportal.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -9,7 +12,7 @@ import java.util.ArrayList;
  * Created by Niroshan Rathnayake on 6/6/2018.
  */
 
-public class BeanClient implements Serializable {
+public class BeanClient implements Parcelable {
 
     @SerializedName("description")
     private String description;
@@ -28,6 +31,29 @@ public class BeanClient implements Serializable {
 
     @SerializedName("avg_response_time_in_hours")
     private Integer avg_response_time_in_hours;
+
+    protected BeanClient(Parcel in) {
+        description = in.readString();
+        id = in.readString();
+        name = in.readString();
+        if (in.readByte() == 0) {
+            avg_response_time_in_hours = null;
+        } else {
+            avg_response_time_in_hours = in.readInt();
+        }
+    }
+
+    public static final Creator<BeanClient> CREATOR = new Creator<BeanClient>() {
+        @Override
+        public BeanClient createFromParcel(Parcel in) {
+            return new BeanClient(in);
+        }
+
+        @Override
+        public BeanClient[] newArray(int size) {
+            return new BeanClient[size];
+        }
+    };
 
     public String getDescription() {
         return description;
@@ -79,5 +105,23 @@ public class BeanClient implements Serializable {
 
     public void setAvg_response_time_in_hours(Integer avg_response_time_in_hours) {
         this.avg_response_time_in_hours = avg_response_time_in_hours;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(description);
+        parcel.writeString(id);
+        parcel.writeString(name);
+        if (avg_response_time_in_hours == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(avg_response_time_in_hours);
+        }
     }
 }

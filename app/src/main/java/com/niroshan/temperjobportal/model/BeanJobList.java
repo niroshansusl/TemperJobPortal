@@ -1,5 +1,8 @@
 package com.niroshan.temperjobportal.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -9,7 +12,7 @@ import java.util.ArrayList;
  * Created by Niroshan Rathnayake on 6/6/2018.
  */
 
-public class BeanJobList implements Serializable {
+public class BeanJobList implements Parcelable {
 
     private String key;
     private long keyvlaue;
@@ -54,6 +57,58 @@ public class BeanJobList implements Serializable {
 
     @SerializedName("shifts")
     private ArrayList<BeanShifts> shifts;
+
+    protected BeanJobList(Parcel in) {
+        key = in.readString();
+        keyvlaue = in.readLong();
+        currentLat = in.readDouble();
+        currentLong = in.readDouble();
+        title = in.readString();
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            distance = null;
+        } else {
+            distance = in.readInt();
+        }
+        url = in.readString();
+        if (in.readByte() == 0) {
+            max_possible_earnings_hour = null;
+        } else {
+            max_possible_earnings_hour = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            max_possible_earnings_total = null;
+        } else {
+            max_possible_earnings_total = in.readDouble();
+        }
+        job_category = in.readParcelable(BeanJobCategory.class.getClassLoader());
+        if (in.readByte() == 0) {
+            open_positions = null;
+        } else {
+            open_positions = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            new_matches_count = null;
+        } else {
+            new_matches_count = in.readInt();
+        }
+    }
+
+    public static final Creator<BeanJobList> CREATOR = new Creator<BeanJobList>() {
+        @Override
+        public BeanJobList createFromParcel(Parcel in) {
+            return new BeanJobList(in);
+        }
+
+        @Override
+        public BeanJobList[] newArray(int size) {
+            return new BeanJobList[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -189,5 +244,57 @@ public class BeanJobList implements Serializable {
 
     public void setLocation(BeanLocation location) {
         this.location = location;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(key);
+        parcel.writeLong(keyvlaue);
+        parcel.writeDouble(currentLat);
+        parcel.writeDouble(currentLong);
+        parcel.writeString(title);
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        if (distance == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(distance);
+        }
+        parcel.writeString(url);
+        if (max_possible_earnings_hour == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(max_possible_earnings_hour);
+        }
+        if (max_possible_earnings_total == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(max_possible_earnings_total);
+        }
+        parcel.writeParcelable(job_category, i);
+        if (open_positions == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(open_positions);
+        }
+        if (new_matches_count == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(new_matches_count);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.niroshan.temperjobportal.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -8,7 +11,7 @@ import java.io.Serializable;
  * Created by Niroshan Rathnayake on 6/6/2018.
  */
 
-public class BeanFormats implements Serializable {
+public class BeanFormats implements Parcelable {
 
     @SerializedName("cdn_url")
     private String cdn_url;
@@ -18,6 +21,36 @@ public class BeanFormats implements Serializable {
 
     @SerializedName("created_at")
     private String created_at;
+
+    protected BeanFormats(Parcel in) {
+        cdn_url = in.readString();
+        format = in.readString();
+        created_at = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(cdn_url);
+        dest.writeString(format);
+        dest.writeString(created_at);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<BeanFormats> CREATOR = new Creator<BeanFormats>() {
+        @Override
+        public BeanFormats createFromParcel(Parcel in) {
+            return new BeanFormats(in);
+        }
+
+        @Override
+        public BeanFormats[] newArray(int size) {
+            return new BeanFormats[size];
+        }
+    };
 
     public String getCdn_url() {
         return cdn_url;
